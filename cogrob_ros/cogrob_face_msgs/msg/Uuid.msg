@@ -1,0 +1,2 @@
+uint64 most_significant_bits
+uint64 least_significant_bits

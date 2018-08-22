@@ -1,0 +1,321 @@
+// Copyright (c) 2018, The Regents of the University of California
+// All rights reserved.
+//
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions are met:
+// * Redistributions of source code must retain the above copyright
+//   notice, this list of conditions and the following disclaimer.
+// * Redistributions in binary form must reproduce the above copyright
+//   notice, this list of conditions and the following disclaimer in the
+//   documentation and/or other materials provided with the distribution.
+// * Neither the name of the University of California nor the
+//   names of its contributors may be used to endorse or promote products
+//   derived from this software without specific prior written permission.
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+// AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+// ARE DISCLAIMED. IN NO EVENT SHALL THE REGENTS OF THE UNIVERSITY OF CALIFORNIA
+// BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+// CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+// SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+// INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+// CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+// ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+// POSSIBILITY OF SUCH DAMAGE.
+
+syntax = "proto3";
+
+import "util/proto/timestamp.proto";
+
+package cogrob.monitor;
+
+// Next TAG: 25
+message PsUtilStats {
+  // https://psutil.readthedocs.io/en/latest/#system-related-functions
+
+  message CpuTimes {
+    // user: time spent by normal processes executing in user mode; on Linux
+    // this also includes guest time
+    float user = 1;
+
+    // system: time spent by processes executing in kernel mode
+    float system = 2;
+
+    // idle: time spent doing nothing
+    float idle = 3;
+
+    // nice (UNIX): time spent by niced (prioritized) processes executing in
+    // user mode; on Linux this also includes guest_nice time
+    float nice = 4;
+
+    // iowait (Linux): time spent waiting for I/O to complete
+    float iowait = 5;
+
+    // irq (Linux, BSD): time spent for servicing hardware interrupts
+    float irq = 6;
+
+    // softirq (Linux): time spent for servicing software interrupts
+    float softirq = 7;
+
+    // steal (Linux 2.6.11+): time spent by other operating systems running in a
+    // virtualized environment
+    float steal = 8;
+
+    // guest (Linux 2.6.24+): time spent running a virtual CPU for guest
+    // operating systems under the control of the Linux kernel
+    float guest = 9;
+
+    // guest_nice (Linux 3.2.0+): time spent running a niced guest (virtual CPU
+    // for guest operating systems under the control of the Linux kernel)
+    float guest_nice = 11;
+
+    // interrupt (Windows): time spent for servicing hardware interrupts
+    // (similar to “irq” on UNIX)
+    float interrupt = 12;
+
+    // dpc (Windows): time spent servicing deferred procedure calls (DPCs); DPCs
+    // are interrupts that run at a lower priority than standard interrupts.
+    float dpc = 13;
+  }
+
+  message CpuTimesPercent {
+    // user: time spent by normal processes executing in user mode; on Linux
+    // this also includes guest time
+    float user = 1;
+
+    // system: time spent by processes executing in kernel mode
+    float system = 2;
+
+    // idle: time spent doing nothing
+    float idle = 3;
+
+    // nice (UNIX): time spent by niced (prioritized) processes executing in
+    // user mode; on Linux this also includes guest_nice time
+    float nice = 4;
+
+    // iowait (Linux): time spent waiting for I/O to complete
+    float iowait = 5;
+
+    // irq (Linux, BSD): time spent for servicing hardware interrupts
+    float irq = 6;
+
+    // softirq (Linux): time spent for servicing software interrupts
+    float softirq = 7;
+
+    // steal (Linux 2.6.11+): time spent by other operating systems running in
+    // a virtualized environment
+    float steal = 8;
+
+    // guest (Linux 2.6.24+): time spent running a virtual CPU for guest
+    // operating systems under the control of the Linux kernel
+    float guest = 9;
+
+    // guest_nice (Linux 3.2.0+): time spent running a niced guest (virtual CPU
+    // for guest operating systems under the control of the Linux kernel)
+    float guest_nice = 11;
+
+    // interrupt (Windows): time spent for servicing hardware interrupts
+    // (similar to “irq” on UNIX)
+    float interrupt = 12;
+
+    // dpc (Windows): time spent servicing deferred procedure calls (DPCs); DPCs
+    // are interrupts that run at a lower priority than standard interrupts.
+    float dpc = 13;
+  }
+
+  message CpuStats {
+    // ctx_switches: number of context switches (voluntary + involuntary) since
+    // boot.
+    float ctx_switches = 1;
+
+    // interrupts: number of interrupts since boot.
+    float interrupts = 2;
+
+    // soft_interrupts: number of software interrupts since boot. Always set to
+    // 0 on Windows and SunOS.
+    float soft_interrupts = 3;
+
+    // syscalls: number of system calls since boot. Always set to 0 on Linux.
+    float syscalls = 4;
+  }
+
+
+  message CpuFreq {
+    float current_val = 1;
+    float min_val = 2;
+    float max_val = 3;
+  }
+
+  message VirtualMemory {
+    // total: total physical memory.
+    uint64 total = 1;
+
+    // available: the memory that can be given instantly to processes without
+    // the system going into swap. This is calculated by summing different
+    // memory values depending on the platform and it is supposed to be used to
+    // monitor actual memory usage in a cross platform fashion.
+    uint64 available = 2;
+
+    // used: memory used, calculated differently depending on the platform and
+    // designed for informational purposes only. total - free does not
+    // necessarily match used.
+    uint64 used = 3;
+
+    // free: memory not being used at all (zeroed) that is readily available;
+    // note that this doesn’t reflect the actual memory available (use available
+    // instead). total - used does not necessarily match free.
+    uint64 free = 4;
+
+    // active (UNIX): memory currently in use or very recently used, and so it
+    // is in RAM.
+    uint64 active = 5;
+
+    // inactive (UNIX): memory that is marked as not used.
+    uint64 inactive = 6;
+
+    // buffers (Linux, BSD): cache for things like file system metadata.
+    uint64 buffers = 7;
+
+    // cached (Linux, BSD): cache for various things.
+    uint64 cached = 8;
+
+    // shared (Linux, BSD): memory that may be simultaneously accessed by
+    // multiple processes.
+    uint64 shared = 9;
+
+    // slab (Linux): in-kernel data structures cache.
+    uint64 slab = 10;
+
+    // wired (BSD, macOS): memory that is marked to always stay in RAM. It is
+    // never moved to disk.
+    uint64 wired = 11;
+  }
+
+  message SwapMemory {
+    // total: total swap memory in bytes
+    uint64 total = 1;
+
+    // used: used swap memory in bytes
+    uint64 used = 2;
+
+    // free: free swap memory in bytes
+    uint64 free = 3;
+
+    // percent: the percentage usage calculated as
+    // (total - available) / total * 100
+    float percent = 4;
+
+    // sin: the number of bytes the system has swapped in from disk (cumulative)
+    uint64 sin = 5;
+
+    // sout: the number of bytes the system has swapped out from disk
+    // (cumulative)
+    uint64 sout = 6;
+  }
+
+  message DiskIoCounters {
+    // read_count: number of reads
+    uint64 read_count = 1;
+
+    // write_count: number of writes
+    uint64 write_count = 2;
+
+    // read_bytes: number of bytes read
+    uint64 read_bytes = 3;
+
+    // write_bytes: number of bytes written
+    uint64 write_bytes = 4;
+
+    // read_time: (all except NetBSD and OpenBSD) time spent reading from disk
+    // (in milliseconds)
+    uint64 read_time = 5;
+
+    // write_time: (all except NetBSD and OpenBSD) time spent writing to disk
+    // (in milliseconds)
+    uint64 write_time = 6;
+
+    // busy_time: (Linux, FreeBSD) time spent doing actual I/Os (in
+    // milliseconds)
+    uint64 busy_time = 7;
+
+    // read_merged_count (Linux): number of merged reads (see iostat doc)
+    uint64 read_merged_count = 8;
+
+    // write_merged_count (Linux): number of merged writes (see iostats doc)
+    uint64 write_merged_count = 9;
+  }
+
+  message NetIoCounters {
+    // bytes_sent: number of bytes sent
+    uint64 bytes_sent = 1;
+
+    // bytes_recv: number of bytes received
+    uint64 bytes_recv = 2;
+
+    // packets_sent: number of packets sent
+    uint64 packets_sent = 3;
+
+    // packets_recv: number of packets received
+    uint64 packets_recv = 4;
+
+    // errin: total number of errors while receiving
+    uint64 errin = 5;
+
+    // errout: total number of errors while sending
+    uint64 errout = 6;
+
+    // dropin: total number of incoming packets which were dropped
+    uint64 dropin = 7;
+
+    // dropout: total number of outgoing packets which were dropped (always 0 on
+    // macOS and BSD)
+    uint64 dropout = 8;
+  }
+
+  util.proto.Timestamp collect_begin_time = 1;
+  util.proto.Timestamp collect_end_time = 2;
+
+  // CPU https://psutil.readthedocs.io/en/latest/#cpu
+  CpuTimes cpu_times = 3;
+
+  repeated CpuTimes cpu_times_per_cpu = 4;
+
+  float cpu_percent = 5;
+  float cpu_percent_interval = 6; // seconds
+
+  repeated float cpu_percent_per_cpu = 7;
+  float cpu_percent_per_cpu_interval = 8;  // seconds
+
+  CpuTimesPercent cpu_times_percent = 9;
+  float cpu_times_percent_interval = 10; // seconds
+
+  repeated CpuTimesPercent cpu_times_percent_per_cpu = 11;
+  float cpu_times_percent_per_cpu_interval = 12;  // seconds
+
+  int64 cpu_count_physical = 13;
+
+  int64 cpu_count_logical = 14;
+
+  CpuStats cpu_stats = 15;
+
+  CpuFreq cpu_freq = 16;
+
+  repeated CpuFreq cpu_freq_per_cpu = 17;
+
+  // Vritual Memory
+  // https://psutil.readthedocs.io/en/latest/#psutil.virtual_memory
+  VirtualMemory virtual_memory = 18;
+  SwapMemory swap_memory = 19;
+
+  // Disks https://psutil.readthedocs.io/en/latest/#disks
+  DiskIoCounters disk_io_counters = 20;
+  map<string, DiskIoCounters> disk_io_counters_per_disk = 21;
+
+  // Network https://psutil.readthedocs.io/en/latest/#network
+  NetIoCounters net_io_counters = 22;
+  map<string, NetIoCounters> net_io_counters_per_nic = 23;
+
+  // The system boot time expressed in seconds since the epoch
+  util.proto.Timestamp boot_time = 24;
+}

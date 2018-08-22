@@ -1,0 +1,6 @@
+---
+bool is_charging
+float64 charge_level
+
+bool is_error
+string error_message

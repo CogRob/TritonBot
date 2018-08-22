@@ -1,0 +1,5 @@
+<launch>
+  <node name="openface_client" pkg="openface_client" type="openface_client_node.py">
+    <remap from="/head_camera/rgb/image_raw" to="/usb_cam/image_rect_color"/>
+  </node>
+</launch>

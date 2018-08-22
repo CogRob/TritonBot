@@ -1,0 +1,43 @@
+<?xml version="1.0" ?>
+<launch>
+
+  <!-- run detect_leg_clusters (front) -->
+  <param name="leg_tracker_front/forest_file" value="$(find leg_tracker)/config/trained_leg_detector_res=0.33.yaml" />
+  <param name="leg_tracker_front/scan_topic" value="/base_scan" />
+  <param name="leg_tracker_front/fixed_frame" value="map"/>
+  <param name="leg_tracker_front/scan_frequency" value="15"/>
+  <param name="leg_tracker_front/max_detect_distance" value="10.0"/>
+  <param name="leg_tracker_front/detection_threshold" value="1.0"/>
+  <node pkg="leg_tracker" type="detect_leg_clusters" name="detect_leg_clusters" ns="leg_tracker_front" output="screen">
+    <remap from="/leg_tracker_front/visualization_marker" to="/visualization_marker"/>
+    <remap from="/leg_tracker_front/detected_leg_clusters" to="/leg_tracker/detected_leg_clusters"/>
+  </node>
+
+  <!-- run detect_leg_clusters (back) -->
+  <param name="leg_tracker_back/forest_file" value="/home/cogrob_local/leg_tracker/URG-04LX_model.yaml" />
+  <param name="leg_tracker_back/scan_topic" value="/back_scan" />
+  <param name="leg_tracker_back/fixed_frame" value="map"/>
+  <param name="leg_tracker_back/scan_frequency" value="10"/>
+  <param name="leg_tracker_back/max_detect_distance" value="10.0"/>
+  <param name="leg_tracker_back/detection_threshold" value="1.0"/>
+  <node pkg="leg_tracker" type="detect_leg_clusters" name="detect_leg_clusters" ns="leg_tracker_back" output="screen">
+    <remap from="/leg_tracker_back/visualization_marker" to="/visualization_marker"/>
+    <remap from="/leg_tracker_back/detected_leg_clusters" to="/leg_tracker/detected_leg_clusters"/>
+  </node>
+
+  <param name="leg_tracker/scan_topic" value="/all_scan" />
+  <param name="leg_tracker/fixed_frame" value="map"/>
+  <param name="leg_tracker/max_detect_distance" value="10.0"/>
+  <param name="leg_tracker/detection_threshold" value="1.0"/>
+
+  <!-- run joint_leg_tracker -->
+  <node pkg="leg_tracker" type="joint_leg_tracker.py" name="joint_leg_tracker" ns="leg_tracker" output="screen">
+    <remap from="/leg_tracker/visualization_marker" to="/visualization_marker"/>
+  </node>
+
+   <!-- run local_occupancy_grid_mapping -->
+  <node pkg="leg_tracker" type="local_occupancy_grid_mapping" name="local_occupancy_grid_mapping" ns="leg_tracker" output="screen">
+    <remap from="/leg_tracker/visualization_marker" to="/visualization_marker"/>
+  </node>
+
+</launch>

@@ -1,0 +1,35 @@
+global_frame: map
+robot_base_frame: base_link
+update_frequency: 5.0
+publish_frequency: 0.0
+static_map: true
+transform_tolerance: 0.5
+
+robot_radius: 0.30
+
+plugins:
+ - {name: static_map, type: "costmap_2d::StaticLayer"}
+ # - {name: obstacles_fetch_dpeth,  type: "costmap_2d::FetchDepthLayer"}
+ - {name: inflater,   type: "costmap_2d::InflationLayer"}
+
+static_map:
+  lethal_cost_threshold: 60
+
+# obstacles_fetch_dpeth:
+#   observation_sources: scan_limit_with_error
+#   scan_limit_with_error:
+#     data_type: LaserScan
+#     topic: scan_limit_with_error
+#     marking: true
+#     clearing: true
+#     obstacle_range: 4.0
+#     raytrace_range: 10.0
+#     min_obstacle_height: 0.25
+#     max_obstacle_height: 0.3
+#   z_voxels: 16
+#   z_resolution: 0.125
+#   max_obstacle_height: 2.0
+
+inflater:
+  robot_radius: 0.30
+  inflation_radius: 10

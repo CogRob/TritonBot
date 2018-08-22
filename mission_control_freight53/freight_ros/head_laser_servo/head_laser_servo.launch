@@ -1,0 +1,7 @@
+<launch>
+  <node name="cogrob_pololu_lidar" pkg="cogrob_pololu_lidar"
+        type="cogrob_pololu_lidar.py"
+        output="screen" required="true" ns="/head_laser_servo">
+    <param name="tty_device" type="string" value="/mnt/host_dev/serial/by-id/usb-Pololu_Corporation_Pololu_Micro_Maestro_6-Servo_Controller_00203689-if00" />
+  </node>
+</launch>

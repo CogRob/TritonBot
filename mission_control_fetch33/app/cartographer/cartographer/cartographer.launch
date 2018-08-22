@@ -1,0 +1,12 @@
+<launch>
+  <node name="cartographer" pkg="cartographer_ros"
+      type="cartographer_node" args="
+          -configuration_directory $(find cartographer_fetch)/configuration_files
+          -configuration_basename freight.lua"
+      output="screen">
+    <remap from="scan" to="base_scan" />
+  </node>
+
+  <node name="cartographer_occupancy_grid_node" pkg="cartographer_ros"
+      type="cartographer_occupancy_grid_node" args="-resolution 0.05" />
+</launch>

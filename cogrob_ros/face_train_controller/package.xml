@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<package>
+  <name>face_train_controller</name>
+  <version>0.0.0</version>
+  <description>The face_train_controller package</description>
+  <maintainer email="shengye@ucsd.edu">Shengye Wang</maintainer>
+  <license>TODO</license>
+  <build_depend>grpc</build_depend>
+  <run_depend>cogrob_face_msgs</run_depend>
+  <run_depend>cogrob_face_protos</run_depend>
+  <run_depend>grpc</run_depend>
+  <run_depend>std_msgs</run_depend>
+  <buildtool_depend>catkin</buildtool_depend>
+</package>

@@ -1,0 +1,13 @@
+<launch>
+  <node name="cartographer" pkg="cartographer_ros"
+      type="cartographer_node" args="
+          -configuration_directory /root/cartographer_localization
+          -configuration_basename freight_localization.lua
+          -load_state_filename /root/.ros/maps/first_floor.pbstream"
+      required="true">
+    <remap from="scan" to="base_scan" />
+  </node>
+
+  <node name="cartographer_occupancy_grid_node" pkg="cartographer_ros"
+      type="cartographer_occupancy_grid_node" args="-resolution 0.05" />
+</launch>

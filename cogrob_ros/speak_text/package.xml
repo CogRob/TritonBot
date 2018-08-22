@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package>
+  <name>speak_text</name>
+  <version>0.0.0</version>
+  <description>The speak_text package</description>
+
+  <maintainer email="shengye@todo.todo">shengye</maintainer>
+
+  <license>TODO</license>
+
+  <build_depend>speak_text_msgs</build_depend>
+  <build_depend>std_msgs</build_depend>
+  <run_depend>speak_text_msgs</run_depend>
+  <build_depend>std_msgs</build_depend>
+  <run_depend>python-pyaudio</run_depend>
+  <buildtool_depend>catkin</buildtool_depend>
+
+</package>

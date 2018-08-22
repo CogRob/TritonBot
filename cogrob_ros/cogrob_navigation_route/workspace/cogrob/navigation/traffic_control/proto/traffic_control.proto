@@ -1,0 +1,102 @@
+// Copyright (c) 2018, The Regents of the University of California
+// All rights reserved.
+//
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions are met:
+// * Redistributions of source code must retain the above copyright
+//   notice, this list of conditions and the following disclaimer.
+// * Redistributions in binary form must reproduce the above copyright
+//   notice, this list of conditions and the following disclaimer in the
+//   documentation and/or other materials provided with the distribution.
+// * Neither the name of the University of California nor the
+//   names of its contributors may be used to endorse or promote products
+//   derived from this software without specific prior written permission.
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+// AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+// ARE DISCLAIMED. IN NO EVENT SHALL THE REGENTS OF THE UNIVERSITY OF CALIFORNIA
+// BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+// CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+// SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+// INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+// CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+// ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+// POSSIBILITY OF SUCH DAMAGE.
+
+syntax = "proto3";
+
+import "cogrob/navigation/proto/navigation_chart.proto";
+
+package cogrob.navigation.traffic_control;
+
+message GetFullNavChartRequest { }
+message GetFullNavChartResponse {
+  cogrob.navigation.NavChart nav_chart = 1;
+}
+
+message ListNavPointsRequest { }
+message ListNavPointsResponse {
+  repeated cogrob.navigation.NavPoint nav_points = 2;
+}
+
+message GetNavPointInfoRequest {
+  string nav_point_name = 1;
+}
+message GetNavPointInfoResponse {
+  cogrob.navigation.NavPoint nav_point = 1;
+  repeated string neighbors = 2;
+}
+
+message GetNavPathInfoRequest {
+  string end_a = 1;
+  string end_b = 2;
+}
+message GetNavPathInfoResponse {
+  cogrob.navigation.NavPath nav_path = 1;
+  double line_distance = 2;
+  double weighted_distance = 3;
+  // TODO(shengye): Report if recently failed.
+  // TODO(shengye): Report estimated distance.
+}
+
+message GetNearestNavPointRequest {
+  cogrob.navigation.WorldCoordinate world_xy = 1;
+}
+message GetNearestNavPointResponse {
+  string nearest_nav_point_name = 1;
+}
+
+message GetNavMapNameRequest { }
+message GetNavMapNameResponse {
+  string nav_map_name = 1;
+}
+
+message GetNavRoutePlanRequest {
+  string nav_point_start = 1;
+  string nav_point_end = 2;
+}
+message GetNavRoutePlanResponse {
+  repeated string navigation_route = 1;
+}
+
+message ReportNavFailureRequest {
+  string end_a = 1;
+  string end_b = 2;
+  // TODO(shengye): Report failure type.
+}
+message ReportNavFailureResponse { }
+
+
+service TrafficControl {
+  rpc GetFullNavChart(GetFullNavChartRequest) returns (GetFullNavChartResponse);
+  rpc ListNavPoints(ListNavPointsRequest) returns (ListNavPointsResponse);
+  rpc GetNavPointInfo(GetNavPointInfoRequest) returns (GetNavPointInfoResponse);
+  rpc GetNavPathInfo(GetNavPathInfoRequest) returns (GetNavPathInfoResponse);
+  rpc GetNearestNavPoint(GetNearestNavPointRequest)
+      returns (GetNearestNavPointResponse);
+  rpc GetNavMapName(GetNavMapNameRequest) returns (GetNavMapNameResponse);
+  rpc GetNavRoutePlan(GetNavRoutePlanRequest) returns (GetNavRoutePlanResponse);
+  rpc ReportNavFailure(ReportNavFailureRequest)
+      returns (ReportNavFailureResponse);
+}

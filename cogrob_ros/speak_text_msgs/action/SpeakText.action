@@ -1,0 +1,10 @@
+# Goal definition
+string text
+---
+# Result definition
+float64 total_time
+bool is_success
+string error_info
+---
+# Feedback
+float64 time_left

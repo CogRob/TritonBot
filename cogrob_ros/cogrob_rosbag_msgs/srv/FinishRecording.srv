@@ -1,0 +1,9 @@
+# Name of configuration (representing a group of topics to record), this is also
+# used as identifier -- at the same time, only one instance of a config could be
+# actively recording.
+string config_name
+
+---
+
+bool success
+string error_info

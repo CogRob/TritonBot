@@ -1,0 +1,20 @@
+image_width: 640
+image_height: 480
+camera_name: elp_usbcam
+camera_matrix:
+  rows: 3
+  cols: 3
+  data: [540.840150, 0.000000, 322.707419, 0.000000, 545.165577, 227.209295, 0.000000, 0.000000, 1.000000]
+distortion_model: plumb_bob
+distortion_coefficients:
+  rows: 1
+  cols: 5
+  data: [-0.428104, 0.179873, 0.002931, 0.001311, 0.000000]
+rectification_matrix:
+  rows: 3
+  cols: 3
+  data: [1.000000, 0.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 0.000000, 1.000000]
+projection_matrix:
+  rows: 3
+  cols: 4
+  data: [447.406830, 0.000000, 324.888832, 0.000000, 0.000000, 494.698975, 225.358533, 0.000000, 0.000000, 0.000000, 1.000000, 0.000000]

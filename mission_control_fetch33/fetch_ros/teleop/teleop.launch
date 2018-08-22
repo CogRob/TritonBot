@@ -1,0 +1,45 @@
+<launch>
+
+  <arg name="joy_device" default="/dev/input/js0"/>
+  <arg name="button_deadman" default="4" />
+  <arg name="head_deadman" default="6" />
+
+  <node name="joy" pkg="joy" type="joy_node">
+    <param name="autorepeat_rate" value="10"/>
+    <param name="dev" value="$(arg joy_device)"/>
+  </node>
+
+  <node name="teleop" pkg="fetch_teleop" type="joystick_teleop">
+    <param name="is_fetch" value="true"/>
+
+    <param name="base/button_deadman" value="$(arg button_deadman)"/>
+    <param name="base/axis_x" value="5"/>
+    <param name="base/axis_w" value="0"/>
+
+    <param name="torso/button_deadman" value="$(arg button_deadman)"/>
+    <param name="torso/button_increase" value="3"/>
+    <param name="torso/button_decrease" value="1"/>
+
+    <param name="gripper/button_deadman" value="$(arg button_deadman)"/>
+    <param name="gripper/button_open" value="2"/>
+    <param name="gripper/button_close" value="0"/>
+
+    <param name="head/button_deadman" value="$(arg head_deadman)"/>
+    <param name="head/axis_pan" value="0"/>
+    <param name="head/axis_tilt" value="5"/>
+  </node>
+
+  <node name="cmd_vel_mux" pkg="topic_tools" type="mux" respawn="true" args="base_controller/command /cmd_vel /teleop/cmd_vel">
+    <remap from="mux" to="cmd_vel_mux" />
+  </node>
+
+  <node name="controller_reset" pkg="fetch_bringup" type="controller_reset.py">
+    <param name="~reset_button" value="9"/>
+  </node>
+
+  <node name="tuck_arm" pkg="fetch_teleop" type="tuck_arm.py" args="--joystick" respawn="true">
+    <param name="~deadman_button" value="$(arg button_deadman)"/>
+    <param name="~tuck_button" value="13"/>
+  </node>
+
+</launch>

@@ -1,0 +1,6 @@
+---
+string nav_point
+float64 distance
+
+bool is_error
+string error_message

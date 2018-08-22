@@ -1,0 +1,57 @@
+<launch>
+
+  <!-- GDB Debug Option -->
+  <arg name="debug" default="false" />
+  <arg unless="$(arg debug)" name="launch_prefix" value="" />
+  <arg     if="$(arg debug)" name="launch_prefix"
+     value="gdb -x $(find fetch_bringup)/launch/gdb_settings.gdb --ex run --args" />
+
+  <!-- Calibration -->
+  <param name="calibration_date" value="2016-07-21 09:35:13"/>
+  <param name="base_controller/track_width" value="0.37476"/>
+  <param name="head_camera/driver/z_offset_mm" value="-1"/>
+  <param name="head_camera/driver/z_scaling" value="1.0213572"/>
+  <arg name="rgb_camera_info_url" default="file:///root/fetch_base/depth_2016_07_21_09_30_55.yaml"/>
+  <arg name="depth_camera_info_url" default="file:///root/fetch_base/depth_2016_07_21_09_30_55.yaml"/>
+
+  <!-- Odometry -->
+  <param name="base_controller/publish_tf" value="false" />
+  <include file="$(find fetch_bringup)/launch/include/graft.launch.xml" />
+
+  <!-- URDF -->
+  <param name="robot_description" textfile="/root/fetch_base/calibrated_2016_07_21_09_30_55.urdf"/>
+
+  <!-- Drivers for Base -->
+  <node name="robot_driver" launch-prefix="$(arg launch_prefix)" pkg="fetch_drivers" type="robot_driver" output="screen">
+    <param name="firmware_tar_gz" value="$(find fetch_drivers)/firmware.tar.gz" />
+    <param name="has_base" value="true" />
+    <param name="has_torso" value="true" />
+    <param name="has_head" value="true" />
+    <param name="has_arm" value="true" />
+    <remap from="imu" to="imu_pre_patch"/>
+  </node>
+
+  <!-- Drivers for Gripper -->
+  <node name="gripper_driver" pkg="fetch_drivers" type="gripper_driver" output="screen" >
+    <param name="firmware_tar_gz" value="$(find fetch_drivers)/firmware.tar.gz" />
+  </node>
+
+  <!-- Controllers -->
+  <rosparam file="$(find fetch_bringup)/config/default_controllers.yaml" command="load" />
+
+  <!-- Joint State -> TF -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
+
+  <!-- Head Camera -->
+  <include file="$(find fetch_bringup)/launch/include/head_camera.launch.xml" >
+    <arg name="rgb_camera_info_url" value="$(arg rgb_camera_info_url)" />
+    <arg name="depth_camera_info_url" value="$(arg depth_camera_info_url)" />
+  </include>
+
+  <!-- Laser -->
+  <include file="$(find fetch_bringup)/launch/include/laser.launch.xml" />
+
+  <!-- Diagnostics Aggregator -->
+  <include file="$(find fetch_bringup)/launch/include/aggregator.launch.xml" />
+
+</launch>

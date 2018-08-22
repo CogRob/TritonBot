@@ -1,0 +1,4 @@
+<launch>
+  <node name="record_microphone_audio" pkg="gcloud_speech_utils"
+        type="record_microphone_audio" respawn="true" args="--mic=PrimeSense" />
+</launch>

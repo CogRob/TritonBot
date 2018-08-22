@@ -1,0 +1,77 @@
+// Copyright (c) 2018, The Regents of the University of California
+// All rights reserved.
+//
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions are met:
+// * Redistributions of source code must retain the above copyright
+//   notice, this list of conditions and the following disclaimer.
+// * Redistributions in binary form must reproduce the above copyright
+//   notice, this list of conditions and the following disclaimer in the
+//   documentation and/or other materials provided with the distribution.
+// * Neither the name of the University of California nor the
+//   names of its contributors may be used to endorse or promote products
+//   derived from this software without specific prior written permission.
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+// AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+// ARE DISCLAIMED. IN NO EVENT SHALL THE REGENTS OF THE UNIVERSITY OF CALIFORNIA
+// BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+// CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+// SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+// INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+// CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+// ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+// POSSIBILITY OF SUCH DAMAGE.
+
+syntax = "proto3";
+
+service TtsService {
+  rpc TextToAudio (TextToAudioRequest) returns (TextToAudioResponse) {}
+}
+
+enum AudioFormat {
+  UNKNOWN_PCM_FORMAT = 0;
+  SIGNED_16BITS_LINEAR_PCM = 1;
+}
+
+message TextToAudioRequest {
+  string text = 1;
+  // TODO(shengye): Add support to pitch, speed, volume, pause.
+}
+
+message TextToAudioResponse {
+  message ErrorInfo {
+    enum ErrorCode {
+      NO_ERROR = 0;
+      VT_LIBRARY_ERROR = 1;
+    }
+    ErrorCode error_code = 1;
+
+    // See the end of file for error code embedded in the message.
+    string error_message = 2;
+  }
+
+  ErrorInfo error = 1;
+  AudioFormat audio_format = 2;
+  bytes audio_data = 3;
+}
+
+// VT_TextToBuffer failure code:
+//   -1: サポートしていない音声の形式を用いた場合
+//   -2: チャンネルメモリの確保に失敗した場合
+//   -3: テキスト文字列がNULL pointerの場合
+//   -4: テキスト文字列の長さが0の場合
+//   -5: フレームバッファがNULL pointerの場合
+//   -6: 該当話者の合成DBがLoadされていない場合
+//   -7: 該当のThread IDがすでに使用中である場合
+//   -8: 理由が不明なエラーが発生した場合
+//
+// VT_TextToFile failure code:
+//    -1: サポートしていない音声の形式を用いた場合
+//    -2: チャンネルメモリの確保に失敗した場合
+//    -3: テキスト文字列がNULL pointerの場合
+//    -4: テキスト文字列の長さが0の場合
+//    -5: 該当話者の合成DBがLoadされていない場合
+//    -6: 音声ファイルの生成に失敗した場合
+//    -7: その他の理由

@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<package>
+  <name>cogrob_listen_intent</name>
+  <version>0.0.0</version>
+  <description>The cogrob_listen_intent package</description>
+  <maintainer email="shengye@ucsd.edu">Shengye Wang</maintainer>
+  <license>TODO</license>
+  <build_depend>use_cogrob_workspace</build_depend>
+  <run_depend>use_cogrob_workspace</run_depend>
+  <buildtool_depend>catkin</buildtool_depend>
+</package>

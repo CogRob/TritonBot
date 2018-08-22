@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<package>
+  <name>speak_text_logging</name>
+  <version>0.0.0</version>
+  <description>The speak_text_logging package</description>
+
+  <maintainer email="shengye@todo.todo">shengye</maintainer>
+
+  <license>TODO</license>
+
+  <build_depend>abseil_cpp</build_depend>
+  <build_depend>actionlib_msgs</build_depend>
+  <build_depend>speak_text_msgs</build_depend>
+  <build_depend>libgflags-dev</build_depend>
+  <build_depend>libgoogle-glog-dev</build_depend>
+  <build_depend>grpc</build_depend>
+  <build_depend>uuid</build_depend>
+  <run_depend>abseil_cpp</run_depend>
+  <run_depend>actionlib_msgs</run_depend>
+  <run_depend>speak_text_msgs</run_depend>
+  <run_depend>libgflags-dev</run_depend>
+  <run_depend>libgoogle-glog-dev</run_depend>
+  <run_depend>grpc</run_depend>
+  <run_depend>uuid</run_depend>
+
+  <buildtool_depend>catkin</buildtool_depend>
+</package>

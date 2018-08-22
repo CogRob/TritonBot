@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<package>
+  <name>use_cogrob_workspace</name>
+  <version>0.0.0</version>
+  <description>Use Bazel Workspace in ROS</description>
+  <maintainer email="shengye@todo.todo">shengye</maintainer>
+  <license>TODO</license>
+  <buildtool_depend>catkin</buildtool_depend>
+</package>

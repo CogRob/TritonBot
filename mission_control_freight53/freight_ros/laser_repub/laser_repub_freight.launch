@@ -1,0 +1,19 @@
+<launch>
+  <node name="back_laser_fake_height_tf" pkg="tf" type="static_transform_publisher"
+        args="-0.235 0 0.2878 3.14159265359 0 0 base_link back_laser_fake_height 20"
+        required="true" />
+  <node name="base_scan_laser_repub" pkg="laser_repub" type="laser_repub"
+        args="--replace_value=6.5 --upper_limit=6.5">
+    <remap from="scan" to="/base_scan"/>
+    <remap from="scan_repub" to="/scan_limit_with_error"/>
+  </node>
+  <node name="back_scan_laser_repub" pkg="laser_repub" type="laser_repub"
+        args="--change_frame=back_laser_fake_height --replace_value=6.5 --upper_limit=6.5">
+    <remap from="scan" to="/back_scan"/>
+    <remap from="scan_repub" to="/scan_limit_with_error"/>
+  </node>
+  <node name="base_scan_relay_all_scan" pkg="topic_tools" type="relay" respawn="true"
+        args="/base_scan /all_scan" />
+  <node name="back_scan_relay_all_scan" pkg="topic_tools" type="relay" respawn="true"
+        args="/back_scan /all_scan" />
+</launch>

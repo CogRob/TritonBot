@@ -1,0 +1,11 @@
+version: '2.2'
+services:
+  cartographer:
+    image: tritonbot.github.io/ros_cartographer_fetch
+    command: roslaunch /root/cartographer/cartographer.launch --wait
+    volumes:
+      - ./cartographer:/root/cartographer:ro
+      - /home/cogrob_data/maps:/root/.ros/maps:rw
+    network_mode: "host"
+    restart: always
+    init: true

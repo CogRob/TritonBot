@@ -1,0 +1,4 @@
+<launch>
+  <node name="speak_text_topic_node" pkg="speak_text" type="speak_text_topic_node.py" />
+  <node name="speak_text_action_server" pkg="speak_text" type="speak_text_action_server.py" />
+</launch>

@@ -1,0 +1,8 @@
+<launch>
+  <node name="cogrob_navigation_route_action_server"
+        pkg="cogrob_navigation_route" type="cogrob_navigation_route_node"
+        respawn="true" />
+
+  <node name="move_to_nav_point_topic_proxy" pkg="cogrob_navigation_route"
+        type="move_to_nav_point_topic_proxy" respawn="true" />
+</launch>

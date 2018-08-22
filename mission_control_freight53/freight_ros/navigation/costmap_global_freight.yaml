@@ -1,0 +1,18 @@
+global_frame: map
+robot_base_frame: base_link
+update_frequency: 5.0
+publish_frequency: 1.0
+static_map: true
+transform_tolerance: 0.5
+robot_radius: 0.30
+
+plugins:
+ - {name: static_map, type: "costmap_2d::StaticLayer"}
+ - {name: inflater,   type: "costmap_2d::InflationLayer"}
+
+static_map:
+  lethal_cost_threshold: 60
+
+inflater:
+  robot_radius: 0.30
+  inflation_radius: 10

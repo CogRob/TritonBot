@@ -1,0 +1,31 @@
+<launch>
+
+  <arg name="joy_device" default="/dev/input/js0"/>
+  <arg name="button_deadman" default="4" />
+
+  <node name="joy" pkg="joy" type="joy_node">
+    <param name="autorepeat_rate" value="10"/>
+    <param name="dev" value="$(arg joy_device)"/>
+  </node>
+
+  <node name="teleop" pkg="fetch_teleop" type="joystick_teleop" output="screen">
+    <param name="is_fetch" value="false"/>
+    <param name="base/max_vel_x" value="1.5"/>
+
+    <param name="base/button_deadman" value="$(arg button_deadman)"/>
+    <param name="base/axis_x" value="5"/>
+    <param name="base/axis_w" value="0"/>
+  </node>
+
+  <node name="remote_teleop" pkg="fetch_teleop" type="joystick_teleop" output="screen">
+    <param name="is_fetch" value="false"/>
+    <param name="base/max_vel_x" value="1.5"/>
+    <remap from="/joy" to="/remote_teleop/joy" />
+    <remap from="/teleop/cmd_vel" to="/remote_teleop/cmd_vel" />
+  </node>
+
+  <node name="cmd_vel_mux" pkg="topic_tools" type="mux" respawn="true" args="base_controller/command /cmd_vel /teleop/cmd_vel /remote_teleop/cmd_vel">
+    <remap from="mux" to="cmd_vel_mux" />
+  </node>
+
+</launch>

@@ -1,0 +1,125 @@
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+
+# gRPC and Protobuf
+git_repository(
+  name = "org_pubref_rules_protobuf",
+  remote = "https://github.com/pubref/rules_protobuf",
+  commit = "5cae42382b620aa1e347ecf30b3e92fd0d97998c",
+)
+
+load("@org_pubref_rules_protobuf//cpp:rules.bzl", "cpp_proto_repositories")
+cpp_proto_repositories()
+
+load("@org_pubref_rules_protobuf//python:rules.bzl", "py_proto_repositories")
+py_proto_repositories()
+
+# gflags
+git_repository(
+  name = "com_github_gflags_gflags",
+  # Manually align to latest version
+  commit = "660603a3df1c400437260b51c55490a046a12e8a",
+  remote = "https://github.com/gflags/gflags.git",
+)
+
+
+# glog
+git_repository(
+  name = "com_github_google_glog",
+  # Manually align to latest version
+  commit = "8d7a107d68c127f3f494bb7807b796c8c5a97a82",
+  remote = "https://github.com/google/glog.git",
+)
+
+
+# googleapis
+new_git_repository(
+  name = "googleapis_git",
+  # Manually align to latest version
+  commit = "a5e1f7d76c6779c1690e45649be31f4e96de68be",
+  remote = "https://github.com/googleapis/googleapis.git",
+  build_file = "tools/build/googleapis.BUILD",
+)
+
+
+# portaudio
+new_http_archive(
+  name = "portaudio_tgz",
+  url = "http://www.portaudio.com/archives/pa_stable_v190600_20161030.tgz",
+  sha256 = "f5a21d7dcd6ee84397446fa1fa1a0675bb2e8a4a6dceb4305a8404698d8d1513",
+  strip_prefix = "portaudio",
+  build_file = "tools/build/portaudio.BUILD",
+)
+
+
+# snowboy
+new_git_repository(
+  name = "snowboy_git",
+  remote = "https://github.com/Kitt-AI/snowboy.git",
+  commit = "e3456da227ea42db493f9f8f6b6aee693cf5a6cb",
+  build_file = "tools/build/snowboy.BUILD",
+)
+
+# CCTZ (Time-zone framework).
+http_archive(
+  name = "com_googlesource_code_cctz",
+  urls = ["https://github.com/google/cctz/archive/master.zip"],
+  strip_prefix = "cctz-master",
+)
+
+# RE2 regular-expression framework. Used by some unit-tests.
+http_archive(
+    name = "com_googlesource_code_re2",
+    urls = ["https://github.com/google/re2/archive/master.zip"],
+    strip_prefix = "re2-master",
+)
+
+# abseil_cpp
+git_repository(
+  name = "com_google_absl",
+  # Manually align to latest version
+  commit = "02f833cb81c998264927a5c179325b5f5688de8c",
+  remote = "https://github.com/abseil/abseil-cpp.git",
+)
+
+# hashlib++
+new_http_archive(
+  name = "hashlibpp_zip",
+  urls = ["https://cytranet.dl.sourceforge.net/project/hashlib2plus/0.3.4/hashlibpp_0_3_4.zip"],
+  sha256 = "6504bc5997272ffb42d9ecd016dfd94db87c0006aedfb1422f35225dcbbdd736",
+  strip_prefix = "hashlib2plus/trunk/src",
+  build_file = "tools/build/hashlibpp.BUILD",
+)
+
+# ============================== Python PyPi ==============================
+git_repository(
+    name = "io_bazel_rules_python",
+    remote = "https://github.com/bazelbuild/rules_python.git",
+    commit = "8b5d0683a7d878b28fffe464779c8a53659fc645",
+)
+
+# Only needed for PIP support:
+load("@io_bazel_rules_python//python:pip.bzl", "pip_repositories", "pip_import")
+
+pip_repositories()
+
+# This rule translates the specified requirements.txt into
+# @pip_deps//:requirements.bzl, which itself exposes a pip_install method.
+pip_import(
+   name = "pip_deps",
+   requirements = "//third_party:requirements.txt",
+)
+
+# Load the pip_install symbol for pip_deps, and create the dependencies'
+# repositories.
+load("@pip_deps//:requirements.bzl", "pip_install")
+pip_install()
+
+
+# ============================== CogRob ==============================
+new_git_repository(
+  name = "ros_portal_proto",
+  remote = "git@github.com:CogRob/ros_portal_proto.git",
+  # Manually align to latest version
+  commit = "adc6305779d76bdd7cfb3d8606919a6351bbfc6f",
+  build_file = "tools/build/ros_portol_proto.BUILD",
+)

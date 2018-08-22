@@ -1,0 +1,124 @@
+version: '2.2'
+services:
+  ros_speak_text:
+    image: tritonbot.github.io/ros_speak_text
+    network_mode: "host"
+    privileged: true
+    restart: always
+    init: true
+
+  microphone:
+    image: tritonbot.github.io/ros_gcloud_speech
+    command: roslaunch /root/microphone/acoustic_magic.launch --wait
+    volumes:
+      - ./microphone:/root/microphone:ro
+    network_mode: "host"
+    privileged: true
+    restart: always
+    init: true
+
+  acoustic_magic_uart:
+    image: tritonbot.github.io/ros_acoustic_magic_uart
+    network_mode: "host"
+    privileged: true
+    restart: always
+    init: true
+
+  gcloud_speech_action_server:
+    image: tritonbot.github.io/ros_gcloud_speech
+    command: roslaunch /root/gcloud_speech/gcloud_speech.launch --wait
+    volumes:
+      - ./gcloud_speech:/root/gcloud_speech:ro
+      - /opt/cogrob:/opt/cogrob:ro
+    network_mode: "host"
+    dns: 8.8.8.8
+    restart: always
+    init: true
+
+  ros_openface_client:
+    image: tritonbot.github.io/ros_openface_client
+    network_mode: "host"
+    restart: always
+    init: true
+
+  snowboy:
+    image: tritonbot.github.io/ros_snowboy
+    command: roslaunch /root/snowboy/snowboy.launch --wait
+    volumes:
+      - ./snowboy:/root/snowboy:ro
+    network_mode: "host"
+    restart: always
+    init: true
+
+  gcloud_speech_logging:
+    image: tritonbot.github.io/ros_gcloud_speech_logging
+    network_mode: "host"
+    restart: always
+    init: true
+    volumes:
+      - /home/cogrob_data/log:/home/cogrob_log
+
+  speak_text_logging:
+    image: tritonbot.github.io/ros_speak_text_logging
+    network_mode: "host"
+    restart: always
+    init: true
+    volumes:
+      - /home/cogrob_data/log:/home/cogrob_log
+
+  ros_wakeword_logging:
+    image: tritonbot.github.io/ros_wakeword_logging
+    network_mode: "host"
+    restart: always
+    init: true
+    volumes:
+      - /home/cogrob_data/log:/home/cogrob_log
+
+  # FOR MONITOR ONLY, NOT CORE FUNCTION, NOT RELEASED
+  # headcam_grpc:
+  #   image: tritonbot.github.io/ros_selfie_view
+  #   command: rosrun selfie_view selfie_view_main --image_topic=/head_camera/rgb/image_raw
+  #   network_mode: "host"
+  #   restart: always
+  #   init: true
+
+  cogrob_robot_state_provider:
+    image: tritonbot.github.io/ros_cogrob_robot_state_provider
+    network_mode: "host"
+    restart: always
+    init: true
+
+  navigation_route:
+    image: tritonbot.github.io/ros_cogrob_navigation_route
+    command: roslaunch cogrob_navigation_route move_to_nav_point.launch --wait
+    network_mode: "host"
+    restart: always
+    init: true
+    volumes:
+      - /home/cogrob_data/log:/home/cogrob_log
+
+  ros_trigger_ui:
+    image: tritonbot.github.io/ros_trigger_ui
+    network_mode: "host"
+    restart: always
+    init: true
+
+  cogrob_rosbag:
+    image: tritonbot.github.io/ros_cogrob_rosbag
+    network_mode: "host"
+    restart: always
+    init: true
+    command: roslaunch /root/cogrob_rosbag/cogrob_rosbag.launch --wait
+    volumes:
+      - ./cogrob_rosbag:/root/cogrob_rosbag:ro
+      - /home/cogrob_data/log:/home/cogrob_log
+
+  leg_tracker:
+    image: tritonbot.github.io/ros_leg_tracker
+    network_mode: "host"
+    restart: always
+    init: true
+    command: roslaunch /root/leg_tracker/leg_tracker_fetch.launch --wait
+    volumes:
+      - ./leg_tracker:/root/leg_tracker:ro
+      - /home/cogrob_data/model/leg_tracker:/home/cogrob_local/leg_tracker:ro

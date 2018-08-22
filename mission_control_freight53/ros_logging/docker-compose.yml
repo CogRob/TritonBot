@@ -1,0 +1,33 @@
+version: '2.2'
+services:
+  auto_dock_logging:
+    image: tritonbot.github.io/ros_auto_dock_logging
+    network_mode: "host"
+    restart: always
+    volumes:
+      - /home/cogrob_data/log:/home/cogrob_log
+    init: true
+
+  gcloud_speech_logging:
+    image: tritonbot.github.io/ros_gcloud_speech_logging
+    network_mode: "host"
+    restart: always
+    volumes:
+      - /home/cogrob_data/log:/home/cogrob_log
+    init: true
+
+  speak_text_logging:
+    image: tritonbot.github.io/ros_speak_text_logging
+    network_mode: "host"
+    restart: always
+    volumes:
+      - /home/cogrob_data/log:/home/cogrob_log
+    init: true
+
+  ros_wakeword_logging:
+    image: tritonbot.github.io/ros_wakeword_logging
+    network_mode: "host"
+    restart: always
+    volumes:
+      - /home/cogrob_data/log:/home/cogrob_log
+    init: true

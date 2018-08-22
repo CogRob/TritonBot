@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>cogrob_navigation_route</name>
+  <version>0.0.0</version>
+  <description>The cogrob_navigation_route package</description>
+
+  <maintainer email="shengye@todo.todo">shengye</maintainer>
+
+  <license>TODO</license>
+
+  <depend>abseil_cpp</depend>
+  <depend>actionlib</depend>
+  <depend>actionlib_msgs</depend>
+  <depend>cogrob_navigation_msgs</depend>
+  <depend>cogrob_robot_state_msgs</depend>
+  <depend>fetch_auto_dock_msgs</depend>
+  <depend>grpc</depend>
+  <depend>move_base_msgs</depend>
+  <depend>nav_msgs</depend>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+</package>

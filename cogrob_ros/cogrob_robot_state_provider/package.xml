@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>cogrob_robot_state_provider</name>
+  <version>0.0.0</version>
+  <description>The cogrob_robot_state_provider package</description>
+  <maintainer email="shengye@todo.todo">shengye</maintainer>
+  <license>TODO</license>
+  <depend>abseil_cpp</depend>
+  <depend>cogrob_robot_state_msgs</depend>
+  <depend>grpc</depend>
+  <depend>libgoogle-glog-dev</depend>
+  <depend>libgflags-dev</depend>
+  <depend>power_msgs</depend>
+  <depend>roscpp</depend>
+  <depend>tf</depend>
+  <buildtool_depend>catkin</buildtool_depend>
+</package>

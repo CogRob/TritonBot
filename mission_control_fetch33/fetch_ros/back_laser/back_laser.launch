@@ -1,0 +1,19 @@
+<launch>
+  <node name="back_laser_tf" pkg="tf" type="static_transform_publisher"
+        args="-0.285 0 0.335 3.14159265359 0 0 base_link back_laser 20"
+        required="true" />
+
+  <node name="urg_node" pkg="urg_node" type="urg_node" output="screen" respawn="true">
+    <param name="ip_address" value=""/>
+    <param name="ip_port" value=""/>
+    <param name="serial_port" value="/dev/ttyACM0"/>
+    <param name="serial_baud" value="115200"/>
+    <param name="frame_id" value="back_laser"/>
+    <param name="calibrate_time" value="false"/>
+    <param name="publish_intensity" value="false"/>
+    <param name="publish_multiecho" value="false"/>
+    <param name="angle_min" value="-1.5707963"/>
+    <param name="angle_max" value="1.5707963"/>
+    <remap from="scan" to="back_scan"/>
+  </node>
+</launch>

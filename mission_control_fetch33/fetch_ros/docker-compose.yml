@@ -1,0 +1,90 @@
+version: "2.2"
+services:
+  fetch_base:
+    image: tritonbot.github.io/fetch_stock
+    command: roslaunch /root/fetch_base/robot.launch --wait
+    volumes:
+      - ./fetch_base:/root/fetch_base:ro
+    network_mode: "host"
+    privileged: true
+    cap_add:
+      - SYS_NICE
+      - IPC_LOCK
+    ulimits:
+      memlock: -1
+      nice: -20
+    cpu_shares: 262144
+    mem_reservation: 512m
+    init: true
+    restart: always
+
+  imu_patch:
+    image: tritonbot.github.io/ros_imu_patch
+    command: roslaunch /root/imu_patch/imu_patch.launch --wait
+    volumes:
+      - ./imu_patch:/root/imu_patch:ro
+    network_mode: "host"
+    restart: always
+    init: true
+
+  back_laser:
+    image: tritonbot.github.io/fetch_deploy_base
+    command: roslaunch /root/back_laser/back_laser.launch --wait
+    volumes:
+      - ./back_laser:/root/back_laser:ro
+    privileged: true
+    network_mode: "host"
+    restart: always
+    init: true
+
+  move_group:
+    image: tritonbot.github.io/fetch_stock
+    command: roslaunch fetch_moveit_config move_group.launch --wait
+    network_mode: "host"
+    restart: always
+    init: true
+
+  teleop:
+    image: tritonbot.github.io/fetch_stock
+    command: roslaunch /root/teleop/teleop.launch --wait
+    volumes:
+      - ./teleop:/root/teleop:ro
+    network_mode: "host"
+    privileged: true
+    restart: always
+    init: true
+
+  laser_repub:
+    image: tritonbot.github.io/ros_laser_repub
+    command: roslaunch /root/laser_repub/laser_repub_fetch.launch --wait
+    volumes:
+      - ./laser_repub:/root/laser_repub:ro
+    network_mode: "host"
+    restart: always
+    init: true
+
+  navigation:
+    image: tritonbot.github.io/ros_fetch_navigation
+    command: roslaunch /root/navigation/fetch_nav.launch --wait
+    volumes:
+      - ./navigation:/root/navigation:ro
+    network_mode: "host"
+    restart: always
+    init: true
+
+  cartographer_localization:
+    image: tritonbot.github.io/ros_cartographer_fetch
+    command: roslaunch /root/cartographer_localization/cartographer_localization.launch --wait
+    volumes:
+      - ./cartographer_localization:/root/cartographer_localization:ro
+      - /home/cogrob_data/maps:/root/.ros/maps:rw
+    network_mode: "host"
+    restart: always
+    init: true
+
+  # FOR MONITOR ONLY, NOT CORE FUNCTION, NOT RELEASED
+  # estop_server:
+  #   image: tritonbot.github.io/ros_fetch_estop_server
+  #   network_mode: "host"
+  #   restart: always
+  #   init: true

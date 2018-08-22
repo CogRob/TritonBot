@@ -1,0 +1,31 @@
+<launch>
+  <node name="tf_head_laser_servo_base" pkg="tf" type="static_transform_publisher"
+        args="0.235 -0.121 1.445 0 0 0 base_link head_laser_servo_base 20"
+        required="true" />
+
+  <node name="head_laser_tf" pkg="tf" type="static_transform_publisher"
+        args="0 0 0.0762 0 0 0 head_laser_servo_mount head_laser 20"
+        required="true" />
+
+  <node name="urg_node" pkg="urg_node" type="urg_node" output="screen" respawn="true">
+    <param name="ip_address" value="10.42.42.201"/>
+    <param name="ip_port" value="10940"/>
+    <param name="serial_port" value=""/>
+    <param name="serial_baud" value=""/>
+    <param name="frame_id" value="head_laser"/>
+    <param name="calibrate_time" value="false"/>
+    <param name="publish_intensity" value="true"/>
+    <param name="publish_multiecho" value="false"/>
+    <param name="angle_min" value="-1.5707963"/>
+    <param name="angle_max" value="1.5707963"/>
+    <remap from="scan" to="head_scan_raw"/>
+  </node>
+
+  <node pkg="laser_filters" type="scan_to_scan_filter_chain"
+      name="laser_filter">
+    <rosparam command="load" file="/root/head_laser/head_laser_filter.yaml" />
+    <remap from="scan" to="/head_scan_raw" />
+    <remap from="scan_filtered" to="/head_scan" />
+  </node>
+
+</launch>

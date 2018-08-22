@@ -1,0 +1,5 @@
+string[] human_labels
+string[] nicknames
+---
+bool error
+cogrob_face_msgs/Uuid human_uuid

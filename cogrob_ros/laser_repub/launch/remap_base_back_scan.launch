@@ -1,0 +1,10 @@
+<launch>
+  <node name="base_scan_raw_laser_repub" pkg="laser_repub" type="laser_repub">
+    <remap from="scan" to="/base_scan_raw"/>
+    <remap from="scan_repub" to="/base_scan_limit_with_error"/>
+  </node>
+  <node name="back_scan_laser_repub" pkg="laser_repub" type="laser_repub">
+    <remap from="scan" to="/back_scan"/>
+    <remap from="scan_repub" to="/back_scan_limit_with_error"/>
+  </node>
+</launch>

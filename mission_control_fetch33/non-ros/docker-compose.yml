@@ -1,0 +1,68 @@
+version: '2.2'
+services:
+  # THIS SERVICE IS NOT PROVIDED BUT IS REQUIRED TO RUN TRITON-BOT.
+  # PLEASE IMPLMENT TEXT-TO-SPEECH SERVER ACCORDING TO THE GRPC API.
+  # text_to_audio_server:
+  #   image: tritonbot.github.io/text_to_audio_server
+  #   ports:
+  #     - "7007:7007"
+  #   restart: always
+  #   init: true
+
+  openface_server:
+    image: tritonbot.github.io/openface_server
+    ports:
+      - "7008:7008"
+    hostname: fetch33
+    restart: always
+    volumes:
+      - /home/cogrob_data/log:/home/cogrob_log
+    init: true
+
+  face_db:
+    image: tritonbot.github.io/facedb_server
+    ports:
+      - "7009:7009"
+    hostname: fetch33
+    restart: always
+    volumes:
+      - /home/cogrob_data/model:/home/cogrob_local
+    init: true
+
+  human_db:
+    image: tritonbot.github.io/humandb_server
+    ports:
+      - "7010:7010"
+    hostname: fetch33
+    restart: always
+    volumes:
+      - /home/cogrob_data/model:/home/cogrob_local
+    init: true
+
+  traffic_control_server:
+    image: tritonbot.github.io/traffic_control_server
+    ports:
+      - "7011:7011"
+    hostname: fetch33
+    restart: always
+    volumes:
+      - /home/cogrob_data/model:/home/cogrob_local
+    init: true
+
+  docker_stats_logger:
+    image: tritonbot.github.io/docker_stats_logger
+    hostname: fetch33
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /home/cogrob_data/log:/home/cogrob_log
+    init: true
+
+  psutil_stats_logger:
+    image: tritonbot.github.io/psutil_stats_logger
+    restart: always
+    network_mode: "host"
+    privileged: true
+    volumes:
+      - /home/cogrob_data/log:/home/cogrob_log
+    init: true

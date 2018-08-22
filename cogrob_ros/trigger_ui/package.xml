@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>trigger_ui</name>
+  <version>0.0.0</version>
+  <description>The trigger_ui package</description>
+  <maintainer email="shengye@todo.todo">shengye</maintainer>
+  <license>TODO</license>
+  <depend>python-flask</depend>
+  <buildtool_depend>catkin</buildtool_depend>
+</package>

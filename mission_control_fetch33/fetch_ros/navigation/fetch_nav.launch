@@ -1,0 +1,31 @@
+<launch>
+
+  <arg name="name" value="fetch" />
+
+  <!-- set topics -->
+  <arg name="map_topic" default="map" />
+  <arg name="cmd_vel_topic" default="cmd_vel" />
+  <arg name="odom_topic" default="odom" />
+
+  <!-- planners, costmaps, etc -->
+  <node pkg="move_base" type="move_base" name="move_base" respawn="true" output="screen">
+    <rosparam file="/root/navigation/costmap_local_fetch.yaml" command="load" ns="local_costmap" />
+    <rosparam file="/root/navigation/costmap_global_fetch.yaml" command="load" ns="global_costmap" />
+    <rosparam file="/root/navigation/move_base_fetch.yaml" command="load" />
+    <remap from="cmd_vel" to="$(arg cmd_vel_topic)"/>
+    <remap from="odom" to="$(arg odom_topic)"/>
+    <remap from="map" to="$(arg map_topic)" />
+  </node>
+
+  <node pkg="fetch_navigation" type="tilt_head.py" name="tilt_head_node" />
+
+  <node name="auto_dock" pkg="fetch_auto_dock" type="auto_dock" />
+
+  <node name="dock_on_button" pkg="fetch_auto_dock" type="dock_on_button.py">
+    <param name="dock_button" type="int" value="2" />
+  </node>
+
+  <node name="undock_on_button" pkg="fetch_auto_dock" type="undock_on_button.py">
+    <param name="undock_button" type="int" value="0" />
+  </node>
+</launch>

@@ -1,0 +1,28 @@
+<launch>
+  <node name="back_laser_tf" pkg="tf" type="static_transform_publisher"
+        args="-0.235 0 0.410 3.14159265359 0 0 base_link back_laser 20"
+        required="true" />
+
+  <node name="sick_tim551_2050001_back" pkg="sick_tim" type="sick_tim551_2050001" respawn="true" >
+    <param name="min_ang" type="double" value="-1.7453" />
+    <param name="max_ang" type="double" value="1.7453" />
+    <param name="hostname" type="string" value="10.42.42.202" />
+    <param name="frame_id" type="string" value="back_laser" />
+    <param name="range_max" type="double" value="25.0" />
+    <param name="time_increment" type="double" value="0.000061728" />
+    <remap from="scan" to="back_scan_raw" />
+  </node>
+
+  <node name="sick_tim_filter_back" pkg="fetch_drivers" type="laser_filter">
+    <remap from="in" to="back_scan_raw" />
+    <remap from="out" to="back_scan" />
+    <remap from="base_scan_tagged" to="back_scan_tagged" />
+    <remap from="base_scan_no_self_filter" to="back_scan_no_self_filter" />
+    <remap from="laser_self_filter/cancel" to="back_laser_self_filter/cancel" />
+    <remap from="laser_self_filter/feedback" to="back_laser_self_filter/feedback" />
+    <remap from="laser_self_filter/goal" to="back_laser_self_filter/goal" />
+    <remap from="laser_self_filter/result" to="back_laser_self_filter/result" />
+    <remap from="laser_self_filter/status" to="back_laser_self_filter/status" />
+  </node>
+
+</launch>

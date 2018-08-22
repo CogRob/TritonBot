@@ -1,0 +1,14 @@
+<launch>
+  <node name="cogrob_rosbag_servicer" pkg="cogrob_rosbag_servicer"
+        type="cogrob_rosbag_servicer.py" respawn="true"
+        args="--config_dir=/root/cogrob_rosbag --die_too_soon_time=-1" />
+
+  <node name="throttle_usb_cam" pkg="topic_tools" type="throttle" respawn="true"
+        args="messages /usb_cam/image_raw 1.0" />
+
+  <node name="throttle_map" pkg="topic_tools" type="throttle" respawn="true"
+        args="messages /map 1.0" />
+
+  <node name="throttle_base_camera" pkg="topic_tools" type="throttle" respawn="true"
+        args="messages /base_camera/depth_downsample/image_raw 1.0" />
+</launch>

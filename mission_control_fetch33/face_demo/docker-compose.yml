@@ -1,0 +1,15 @@
+version: '2.2'
+services:
+
+  ros_face_train_controller:
+    image: tritonbot.github.io/ros_face_train_controller
+    command: rosrun face_train_controller face_train_controller_node.py --embedding_alive_secs=30
+    network_mode: "host"
+    restart: always
+    init: true
+
+  ros_face_recognition_client:
+    image: tritonbot.github.io/ros_face_recognition_client
+    network_mode: "host"
+    restart: always
+    init: true

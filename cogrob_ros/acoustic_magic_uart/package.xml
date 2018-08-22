@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package>
+
+  <name>acoustic_magic_uart</name>
+  <version>0.0.1</version>
+  <description>The Acoustic Magic Voice Tracker ROS UART node</description>
+  <maintainer email="shengye@ucsd.edu">Shengye Wang</maintainer>
+  <license>Copyrighed</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>libgoogle-glog-dev</build_depend>
+  <build_depend>libgflags-dev</build_depend>
+  <build_depend>acoustic_magic_msgs</build_depend>
+  <build_depend>roscpp</build_depend>
+
+  <run_depend>libgoogle-glog-dev</run_depend>
+  <run_depend>libgflags-dev</run_depend>
+  <run_depend>acoustic_magic_msgs</run_depend>
+  <run_depend>roscpp</run_depend>
+
+</package>

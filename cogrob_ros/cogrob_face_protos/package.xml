@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<package>
+  <name>cogrob_face_protos</name>
+  <version>0.0.0</version>
+  <description>The cogrob_face_protos package</description>
+  <maintainer email="shengye@ucsd.edu">Shengye Wang</maintainer>
+  <license>TODO</license>
+  <build_depend>grpc</build_depend>
+  <buildtool_depend>catkin</buildtool_depend>
+</package>

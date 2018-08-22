@@ -1,0 +1,4 @@
+<launch>
+  <node name="snowboy_detector_node" pkg="snowboy" type="snowboy_detector_node" respawn="true"
+        args="--snowboy_res_path=$(find snowboy)/kitt-ai-snowboy/common.res --snowboy_umdl_path=$(find snowboy)/kitt-ai-snowboy/snowboy.umdl --snowboy_sensitivity=0.5" />
+</launch>

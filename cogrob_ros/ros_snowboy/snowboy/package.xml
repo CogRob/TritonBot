@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package>
+  <name>snowboy</name>
+  <version>0.0.0</version>
+  <description>ROS package for snowboy, a hotword and wake word detector</description>
+  <maintainer email="shengye@ucsd.edu">Shengye Wang</maintainer>
+  <license>BSD</license>
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>gcloud_speech_msgs</build_depend>
+  <build_depend>libblas-dev</build_depend>
+  <build_depend>libgflags-dev</build_depend>
+  <build_depend>libgoogle-glog-dev</build_depend>
+  <run_depend>gcloud_speech_msgs</run_depend>
+  <run_depend>libblas-dev</run_depend>
+  <run_depend>libgflags-dev</run_depend>
+  <run_depend>libgoogle-glog-dev</run_depend>
+</package>

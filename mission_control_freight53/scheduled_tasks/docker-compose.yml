@@ -1,0 +1,12 @@
+version: '2.2'
+services:
+  # dialogue_report IS NOT CORE FUNCTION OF TRITON-BOT, NOT RELEASED
+  # dialogue_report:
+  #   image: tritonbot.github.io/dialogue_report
+  #   volumes:
+  #     - /home/cogrob_data/log:/home/cogrob_log
+  #     - /opt/cogrob:/opt/cogrob:ro
+  #   network_mode: "host"
+  #   dns: 8.8.8.8
+  #   restart: always
+  #   init: true

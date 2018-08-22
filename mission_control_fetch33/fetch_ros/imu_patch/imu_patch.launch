@@ -1,0 +1,3 @@
+<launch>
+  <node name="fetch_imu_patch" pkg="imu_patch" type="imu_patch" />
+</launch>

@@ -1,0 +1,13 @@
+<launch>
+  <node name="usb_cam" pkg="usb_cam" type="usb_cam_node" output="screen" required="true">
+    <param name="video_device" value="/mnt/host_dev/v4l/by-id/usb-HD_USB_Camera_HD_USB_Camera_HD_USB_Camera-video-index0" />
+    <param name="image_width" value="640" />
+    <param name="image_height" value="480" />
+    <param name="pixel_format" value="yuyv" />
+    <param name="camera_frame_id" value="elp_usbcam" />
+    <param name="camera_name" value="elp_usbcam" />
+    <param name="io_method" value="userptr"/>
+    <param name="camera_info_url" value="file:///root/usb_cam/elp_usbcam.yaml"/>
+  </node>
+  <node name="image_proc" pkg="image_proc" type="image_proc" ns="usb_cam"/>
+</launch>

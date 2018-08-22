@@ -1,0 +1,107 @@
+// Copyright (c) 2018, The Regents of the University of California
+// All rights reserved.
+//
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions are met:
+// * Redistributions of source code must retain the above copyright
+//   notice, this list of conditions and the following disclaimer.
+// * Redistributions in binary form must reproduce the above copyright
+//   notice, this list of conditions and the following disclaimer in the
+//   documentation and/or other materials provided with the distribution.
+// * Neither the name of the University of California nor the
+//   names of its contributors may be used to endorse or promote products
+//   derived from this software without specific prior written permission.
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+// AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+// ARE DISCLAIMED. IN NO EVENT SHALL THE REGENTS OF THE UNIVERSITY OF CALIFORNIA
+// BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+// CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+// SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+// INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+// CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+// ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+// POSSIBILITY OF SUCH DAMAGE.
+
+syntax = "proto3";
+
+import "cogrob/navigation/proto/navigation_chart.proto";
+import "util/proto/timestamp.proto";
+
+package cogrob.navigation;
+
+enum ExecutionResult {
+  UNKNOWN_RESULT = 0;
+  SUCCESS_RESULT = 1;
+  FAILED_RESULT = 2;
+}
+
+enum FailReason {
+  UNKNOWN_FAIL_REASON = 0;
+  TRAFFIC_CONTROL_ERROR = 1;
+  EXECUTION_TIMEOUT = 2;
+  GET_POSITION_ERROR = 3;
+  CANCELLED = 4;
+  MOVE_TO_STANDBY_POSE_ERROR = 5;
+  MOVE_TO_NEAR_HOME_ERROR = 6;
+  TRAFFIC_CONTROL_MAP_NAME_ERROR = 7;
+  UNDOCK_ERROR = 8;
+  EXECUTION_FAILURE = 9;
+  DOCK_ERROR = 10;
+}
+
+message Location {
+  WorldCoordinate world_pos = 1;
+  NavPoint nearest_nav_point = 2;
+  double distance_nearest_nav_point = 3;
+}
+
+message DirectGoToLog {
+  Location start_point = 1;
+  NavPoint target_nav_point = 2;
+  string map_name = 3;
+  ExecutionResult result = 4;
+  repeated FailReason fail_reason = 5;
+}
+
+message AutoDockLog {
+  enum DockActionType {
+    UNKNOWN = 0;
+    DOCK = 1;
+    UNDOCK = 2;
+  }
+
+  DockActionType dock_type = 1;
+  ExecutionResult result = 2;
+  WorldCoordinate start_world_pos = 3;
+  WorldCoordinate end_world_pos = 4;
+}
+
+message MoveToLocationLog {
+  Location start_point = 1;
+  NavPoint target_nav_point = 2;
+  string map_name = 3;
+  ExecutionResult result = 4;
+  repeated NavPoint nav_path = 5;
+  message MoveToProgress {
+    Location start_point = 1;
+    NavPoint target = 2;
+    util.proto.Timestamp start_timestamp = 3;
+    util.proto.Timestamp end_timestamp = 4;
+    double time_elapsed_secs = 5;
+    ExecutionResult result = 6;
+    repeated FailReason fail_reason = 7;
+  }
+  repeated MoveToProgress progress = 6;
+  repeated FailReason fail_reason = 7;
+}
+
+message GoHomeAndDockLog {
+  Location start_point = 1;
+  ExecutionResult result = 2;
+  uint32 last_dock_attempts = 3;
+  uint32 relocate_attempts = 4;
+  uint32 total_dock_attempts = 5;
+  repeated FailReason fail_reason = 6;
+}
